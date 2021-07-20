@@ -1,0 +1,341 @@
+html,body,div,h1,h2,h3,h4,h5,h6,p,ul,ol,dl,table {
+    font-family: Verdana, Geneva, Lucida, Helvetica, Arial, sans-serif;
+}
+
+pre {
+    font-family: monospace;
+    margin-left: 2em;
+}
+
+pre.noindent {
+    margin-left: 0em;
+}
+
+h2 {
+  border-bottom: solid 1px #002A5C;
+  border-top: solid 1px #002A5C;
+  color: #002A5C;
+}
+
+html, body, table {
+  background: #fff;
+  color: #000;
+}
+
+hr {
+    height: 1px;
+}
+
+#dropin
+{
+    color:green;
+}
+
+#helpcentre
+{
+    color:blue;
+}
+
+table
+{
+    border-collapse:collapse;
+}
+table, th, td
+{
+    border: 1px solid black;
+    padding: 5px;
+}
+table .normal {
+    /*text-align: center;*/    
+}
+caption {
+    display: table-caption;
+    text-align: center;
+    caption-side: bottom;
+    font-size: 80%;
+}
+
+tbody tr:nth-child(odd) {
+    background-color: rgba(175, 175, 175, 0.1);
+}
+tbody tr:nth-child(even) {
+    background-color: rgba(255, 255, 255, 0.1);
+}
+
+div.content {
+    clear: both;
+    position: absolute;
+    float: left;
+    margin-left: 20%;
+    width: 78%;
+/*  font-family: Verdana, Geneva, Lucida, Helvetica, Arial, sans-serif;
+*/}
+
+p {
+    padding: 0;
+    margin-top: 0px;
+}
+
+li, li p, li pre, dd p, dd pre {
+    margin-top: 0.5em;
+}
+
+p+pre, pre+p, li>pre:first-child, dd>pre:first-child {
+    margin-top: 0.5em;
+}
+
+ul.toc {
+    list-style-type: none;
+}
+
+.toc li, .compressed li {
+    margin-top: 0em;
+}
+
+.toc li.major {
+    margin-top: 0.5em;
+}
+
+/*p.inli { /* separator line within list item */
+/*    line-height:0.1em;
+}
+*/
+/*dd {
+  font-family: Verdana, Geneva, Lucida, Helvetica, Arial, sans-serif;
+}
+*/
+
+dt {
+    margin-top: 0.5em;
+/*  line-height: 2em;
+*//*  font-family: Verdana, Geneva, Lucida, Helvetica, Arial, sans-serif;
+*/  font-weight: bold;
+}
+
+dd {
+    margin-top: 0em;
+}
+
+table.simple-numeric {
+    border-collapse: separate;
+    border-spacing: 0.8em 0.0em;
+}
+
+table.optionlist {
+    border-collapse: separate;
+    border-spacing: 1.0em 0.0em;
+}
+
+.padded td, .padded th {
+    padding: 3px;
+    border: 1px solid black;
+}
+
+td.ctr, th.ctr {
+    text-align: center;
+}
+
+div.campus_announcements {
+  position: absolute;
+  clear: none;
+  float: left;
+  width: 38%;
+  margin-left: 20%;
+/*  margin-bottom: 2.5ex; */
+}
+
+div.campus_announcements .date {
+  float: right;
+  background: white;
+  color: #002A5C;
+  font-family: Courier, fixed;
+  font-weight: bold;
+}
+
+div.campus_announcements .title {
+  float: left;
+  background: white;
+  color: #002A5C;
+  font-weight: bold;
+}
+
+div.campus_announcements .body {
+  clear: both;
+  background: white;
+  color: #002A5C;
+}
+
+div.campus_announcements ul {
+  padding-left: 0;
+  margin-left: 0;
+}
+
+div.campus_announcements ul > li {
+  list-style: none;
+  margin: 0;
+  padding: 0.25em;
+  border-top: 1px solid gray;
+}
+
+div.course_announcements {
+  position: absolute;
+  clear: none;
+  float: left;
+  width: 38%;
+  margin-left: 59%;
+/*  margin-bottom: 2.5ex; */
+}
+
+div.course_announcements .date {
+  float: right;
+  background: white;
+  color: #002A5C;
+  font-family: Courier, fixed;
+  font-weight: bold;
+}
+
+div.course_announcements .title {
+  float: left;
+  background: white;
+  color: #002A5C;
+  font-weight: bold;
+}
+
+div.course_announcements .body {
+  clear: both;
+  background: white;
+  color: #002A5C;
+}
+
+div.course_announcements ul {
+  padding-left: 0;
+  margin-left: 0;
+}
+
+div.course_announcements ul > li {
+  list-style: none;
+  margin: 0;
+  padding: 0.25em;
+  border-top: 1px solid gray;
+}
+
+img {/* border style for all images */
+  border: 0;
+}
+
+img.b4 {/* scalable em size class 468px/60px banners */
+  width: 16.83em; /* replaces 468px width */
+  height: 9.06em; /* replaces 60px height */
+}
+
+a:link {
+  color: #037;
+}
+
+a:visited {
+  color: #037;
+}
+
+div.title {
+  padding-right: 1em;
+  text-align: right;
+  font-size: 75%;
+  border: solid 3px #002A5C;
+  /* border: solid 3px #336699; */
+  /*background-image: url("http://www.cdf.toronto.edu/~csc108h/winter/images/hbg70.jpg");*/
+  margin-bottom: 2.5ex;
+  background-color: #002A5C;
+  /*  background-color: #336699; */
+  color: white;
+}
+
+.clear {
+  clear: both;
+  font-size: 1px;
+}
+
+.footer {
+  clear: none;
+  margin-left: 20%;
+  margin-top: 1px;
+  text-align: right;
+  border-top: solid 3px white;
+}
+
+.footer .left {
+  margin-top: 1px;
+  float: left;
+  text-align: left;
+  width: 60%;
+}
+
+.footer .right {
+  margin-top: 1px;
+  float: right;
+  text-align: right;
+  width: 40%;
+}
+
+.spacer {
+  clear: both;
+}
+
+div.navigation {
+  clear: both;
+  position: absolute;
+  float: left;
+  padding-left: 5px;
+  padding-right: 5px;
+  width: 18%;
+/*  font-family: Verdana, Geneva, Lucida, Helvetica, Arial, sans-serif;
+*/ /* background-image: url("http://www.cdf.toronto.edu/~csc108h/winter/images/hbg70.jpg");*/
+  /* background-color: #336699; */
+  background-color: #002A5C;
+  color: white;
+}
+
+.navigation .links {
+  text-align: right;
+}
+
+div.navigation p {
+/*  font-family: Verdana, Geneva, Lucida, Helvetica, Arial, sans-serif;
+*/  color: white;
+}
+
+div.navigation p:first-child {
+  border-top: none;
+}
+
+div.navigation a, div.navigation em {
+  display: block;
+  margin: 0 0.5em;
+}
+
+div.navigation a, div.navigation em {
+  border-top: 2px solid white;
+}
+
+div.navigation a:first-child {
+  border-top: none;
+}
+
+div.navigation a:link {
+  text-decoration: none;
+  color: white;
+}
+
+div.navigation a:visited {
+  text-decoration: none;
+  color: white;
+}
+
+div.navigation a:hover {
+  background: white;
+  color: black;
+}
+
+div.navigation a.validate:hover {
+  background: #6A287E;
+  color: white;
+}

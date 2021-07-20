@@ -1,0 +1,609 @@
+<!DOCTYPE html>
+<!-- saved from url=(0075)https://www.teach.cs.toronto.edu/~csc108h/winter/assignments/a2/index.shtml -->
+<html lang="en"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    
+    <meta name="robots" content="noindex, nofollow">
+    <link rel="stylesheet" href="./CSC108H_ Assignment 2_ DNA Manipulation_files/style.css" type="text/css">
+    <title>CSC108H: Assignment 2: DNA Manipulation</title>
+  </head>
+  <body>
+    <div class="title">
+      <h1>
+      CSC108: Assignment 2: DNA Manipulation
+      </h1>
+    </div>
+    <p>
+      <strong>Deadline:</strong> Monday, March 11, 2019 
+      <strong>before</strong> 4:00pm<br>
+      <strong>Initial results:</strong> Wednesday, March 13, 2019<br>
+      <strong>Re-submission with 20% deduction (optional):</strong> 
+      Friday, March 15, 2019 <strong>before</strong> 4:00pm 
+      (no lates accepted)<br>
+    </p>
+    <p><strong>What is re-submission?</strong> The assignment test
+      results will typically be released within 48 hours of the
+      deadline. You may choose to resubmit, fixing any errors
+      detected by our tests, or to submit a late submission without
+      the benefit of tests. These "re-submissions" will be accepted up
+      until the deadline above with a 20% deduction. No late
+      assignment re-submissions will be accepted (the assignment late
+      penalty scheme does not apply to re-submissions). Since a 20%
+      penalty is applied and the highest mark a re-submission can
+      receive is 80%, the re-submission is most commonly used by
+      students whose code had a minor error that resulted in many test
+      cases failing. The majority of students do not and should not
+      resubmit.
+    </p>
+
+    <h2>Frequently Asked Questions (with Answers)</h2>
+    <p style="color: red;">
+      A list of Frequently Asked Questions is 
+      <a href="https://www.teach.cs.toronto.edu/~csc108h/winter/assignments/a2/FAQ.shtml">here</a>.
+    </p>
+
+    <h2>Goals of this assignment</h2>
+    <ul>
+      <li>Continue to practice learning about a problem domain in
+	order to write code about that domain.</li>
+      <li>Continue to use the Function Design Recipe to plan,
+	implement, and test functions.</li>
+      <li>Design and write function bodies using loops (over strings
+	  and lists) and string and list manipulation. (You can do
+	  this whole assignment with only the concepts from Weeks 1
+	  through 6 of CSC108.)</li>
+      <li>Practice good programming style.</li>
+    </ul>
+    
+    <h2>DNA Manipulation</h2>
+    <p>
+      Computer science concepts can be applied to solve problems in
+      many different domains. In this assignment, the problem domain
+      is deoxyribonucleic acid (DNA) manipulation.
+    </p>
+    <p>
+      Before you read the rest of the handout, please go read
+      about <a target="_blank" href="https://www.teach.cs.toronto.edu/~csc108h/winter/assignments/a2/dna.shtml">the DNA problem domain</a>.
+    </p>
+    <p>
+      The rest of this handout assumes that you have read about the
+      problem domain and that you have an undertstanding of the
+      following terms. (You might open both this page and the DNA
+      problem domain page side by side so that it's easy to remind
+      yourself of the terminology.)
+    </p>
+    <ul>
+      <li>DNA</li>
+      <li>base</li>
+      <li>base pair</li>
+      <li>palindrome</li>
+      <li>DNA strand</li>
+      <li>DNA sequence</li>
+      <li>complement</li>
+      <li>complementary strand</li>
+      <li>DNA palindrome</li>
+      <li>restriction site</li>
+      <li>restriction enzyme</li>
+      <li>recognition sequence</li>
+      <li>DNA mutation</li>
+      <li>1-cutter</li>
+    </ul>
+    
+    <h2>What To Do</h2>
+    <p>
+      In this assignment, you will add your work to two different files.
+      The first file is named <code>palindromes.py</code> and you will
+      add your code to implement the required functions
+      listed in the table under <a href="https://www.teach.cs.toronto.edu/~csc108h/winter/assignments/a2/index.shtml#task1">Task 1</a> below.
+      The second file is named <code>dna.py</code> and you will
+      add your code to implement the required functions
+      listed in the table under <a href="https://www.teach.cs.toronto.edu/~csc108h/winter/assignments/a2/index.shtml#task2">Task 2</a> below.
+    </p>
+    
+    <h3 id="download">Files to Download</h3>
+    
+    <p>
+      Please download the <a href="https://www.teach.cs.toronto.edu/~csc108h/winter/assignments/a2/a2.zip">Assignment 2 Files</a> and
+      extract the zip archive. In the sections below we describe the
+      functions that you will add to the starter files.
+    </p>
+
+    <p style="color: red;">
+      (Students who downloaded the zip file before 10:40am on Sunday, Feb 24th
+      should download the 
+      <a href="https://www.teach.cs.toronto.edu/~csc108h/winter/assignments/a2/a2_simple_checker.py">revised a2_simple_checker.py</a> file
+      and replace the original file with the revised version.)
+    </p>
+
+    <h3>CSC108 A2 Checker</h3>
+    <p>
+      As with Assignment 1, we have provided a checker
+      module, <code>a2_simple_checker.py</code>, which you can and
+      should run on your code as you work. You are responsible for
+      doing thorough testing of your own code and making sure it works
+      correctly, but the checker is a good first step. Make sure you
+      use it!
+    </p>
+    
+    <h2 id="task1">Task 1: Regular Palindromes</h2>
+    <p>
+      To help you get warmed up, the first part of this assignment asks you
+      to write code that deals with regular (not DNA) palindromes.
+      According to the Oxford Dictionary, a
+      <em>palindrome</em> is "a word, phrase, or sequence that reads
+      the same backward as forward."  For example, the phrases
+      "<em>Madam, I'm Adam.</em>" and "<em>nurses run</em>" are palindromes.
+      Notice from these examples that blanks and punctuation are
+      ignored when considering whether or not a phrase is a palindrome.
+      We also ignore digits. Only alphabetic characters are examined
+      when determining whether or not a string is a palindrome.
+      The word "<em>radar</em>" is an odd-length palindrome, and
+      "<em>toot</em>" is an even-length palindrome.
+    </p>
+    <p>
+      In file <code>palindromes.py</code>, complete the function
+      definitions for the functions listed in the table below. Use the
+      function design recipe that you have been learning. We have
+      included the type contracts in the table. Please read through
+      the table to understand how the functions will be used.
+    </p>
+    <p>
+      <strong>Come up with your own examples.</strong> It's part of
+      the process of understanding the domain, and is a skill any
+      computer programmer needs.
+    </p>
+    <table class="normal">
+      <caption>List of functions to implement for Assignment 2 Task 1</caption>
+      <tbody><tr>
+        <th style="width:25%">
+          Function name:<br>
+          (Parameter types) -&gt; Return type
+        </th>
+        <th style="width:75%">
+          Full Description (paraphrase to get a proper docstring description)
+        </th>
+      </tr>
+      <tr>
+        <td>
+          <code>is_palindrome_word:</code><br>
+          <code>(str) -&gt; bool</code>
+        </td>
+        <td>
+          <p>
+            The parameter is a string consisting only of lowercase
+            alphabetic letters. It may or may not be a
+            palindrome. Return <code>True</code> if and only if the
+            parameter is a palindrome.
+            The empty string is considered to be a palindrome.
+          </p>
+        </td>
+      </tr>
+      <tr>
+        <td>
+          <code>is_palindrome_phrase:</code><br>
+          <code>(str) -&gt; bool</code>
+        </td>
+        <td>
+          <p>
+            The parameter is a string that may or may not be a
+            palindrome. Return <code>True</code> if and only if the
+            parameter is a palindrome, independent of letter case and
+            ignorning non-alphabetic characters. To be clear,
+            non-alphabetic characters should be ignored (that is,
+            treated as if they are not present), and uppercase
+            letters should be considered to be equal to their
+            lowercase equivalents.
+          </p>
+          <p>
+            <strong>Hint:</strong> Before writing code, write the
+            phrase "Madam I'm Adam." on a piece of paper. This phrase is
+            a palindrome. Think about the steps that you need to go through
+            in order to confirm that it is a palindrome, and then think about
+            how you can express those steps in code.
+          </p>
+        </td>
+      </tr>
+      <tr>
+        <td>
+          <code>get_odd_palindrome_at:</code><br>
+          <code>(str, int) -&gt; str</code>
+        </td>
+        <td>
+          <p>
+            The first parameter is a non-empty string consisting only of
+            lowercase alphabetic characters, and the second parameter is
+            a valid index into the string. Return the longest odd-length
+            palindrome in the string that is centered at the specified
+            index.
+          </p>
+        </td>
+      </tr>
+    </tbody></table>
+    
+    <h2 id="task2">Task 2: DNA palindromes and restriction enzymes</h2>
+    <p>
+      This part of the assignment deals with DNA palindromes and
+      restriction enzymes. Complete the function definitions for the
+      functions listed in the table below in <code>dna.py</code>.
+    </p>
+    <p>
+      The tasks performed by these functions overlap — you should
+      identify and call some of these functions from other functions
+      as helpers.
+    </p>
+    <p>
+      The <code>dna.py</code> file that was provided for download contains
+      a helper function named <code>get_complementary_base()</code> and 
+      some constants.  You are encouraged to use them in your code.
+    </p>
+    <table class="normal">
+      <caption>List of functions to implement for Assignment 2 Task 2</caption>
+      <tbody><tr>
+        <th style="width:25%">
+          Function name:<br>
+          (Parameter types) -&gt; Return type
+        </th>
+        <th style="width:75%">
+          Full Description (paraphrase to get a proper docstring description)
+        </th>
+      </tr>
+      <tr>
+        <td>
+          <code>is_base_pair:</code><br>
+          <code>(str, str) -&gt; bool</code>
+        </td>
+        <td>
+          <p>
+            Each parameter is a single character representing a base
+            (<code>'A'</code>, <code>'T'</code>, <code>'C'</code>,
+            or <code>'G'</code>). Return <code>True</code> if and only
+            if the two parameters form a base pair.
+          </p>
+        </td>
+      </tr>
+      <tr>
+        <td>
+          <code>are_complementary:</code><br>
+          <code>(str, str) -&gt; bool</code>
+        </td>
+        <td>
+          <p>
+            Both parameters are non-empty strings representing DNA strands. The
+            two strands are of equal length and only contain
+            characters from the four characters that represent
+            bases: <code>'A'</code>, <code>'T'</code>, <code>'C'</code>,
+            and <code>'G'</code>. Return <code>True</code> if and only
+            if the two strands are complementary.
+          </p>
+          <p>
+            <strong>Hint:</strong> on a piece of paper, write
+            down <code>'GGATC'</code>. What string would be complementary
+            to this string in a DNA sequence?
+          </p>
+        </td>
+      </tr>
+      <tr>
+        <td colspan="2">
+          <p>
+            <strong>For the rest of the functions, keep using this
+            technique where your first step is to construct an example
+            of the parameters. Some functions are intricate, and
+            you'll need to take notes.</strong>
+          </p>
+        </td>
+      </tr>
+      <tr>
+        <td>
+          <code>is_dna_palindrome:</code><br>
+          <code>(str, str) -&gt; bool</code>
+        </td>
+        <td>
+          <p>
+            Both parameters are non-empty strings representing DNA strands. The
+            two strands form DNA: <code>are_complementary</code> would
+            return <code>True</code> if called on the two
+            inputs. Return <code>True</code> if and only if the DNA
+            strands represented by the two parameters form a DNA
+            palindrome.
+          </p>
+          <p>
+            <strong>Hint:</strong> re-read the last paragraph in
+            the <a href="https://www.teach.cs.toronto.edu/~csc108h/winter/assignments/a2/dna.shtml#dna_palindromes">DNA Palindromes
+            description</a>. Can you call a function
+            from <code>palindromes.py</code> to do most of the work?
+          </p>
+        </td>
+      </tr>
+      <tr>
+        <td>
+          <code>restriction_sites:</code><br>
+          <code>(str, str) -&gt; List[int]</code>
+        </td>
+        <td>
+          <p>
+            The first parameter represents a strand of DNA. The second
+            parameter is a recognition sequence. Return a list of all
+            the indices where the recognition sequence appears in the
+            DNA strand. (These are the restriction sites.) For
+            example, if the recognition sequence appears at the
+            beginning of the DNA strand, then <code>0</code> would be
+            the first item in the returned list. Only look from left
+            to right; don't reverse either parameter to look
+            backwards.
+          </p>
+          <p style="color: red;">
+            The indices in the list that is returned are the indices of the 
+            start of each occurrence of the recognition sequence in the 
+            DNA strand.
+          </p>
+          <p>
+            <strong>Hint:</strong> <code>str.find</code> will probably
+            be helpful.
+          </p>
+        </td>
+      </tr>
+      <tr>
+        <td>
+          <code>match_enzymes:</code><br>
+          <code>(str, List[str], List[str]) -&gt; List[list]</code>
+          <br><br>
+          <code>The return type is a list of two-item [str, List[int]] lists</code>
+        </td>
+        <td>
+          <p>
+            The first parameter represents a strand of DNA. The last two
+            parameters are parallel lists: the second parameter is a
+            list of restriction enzyme names, and the third is the
+            corresponding list of recognition sequences. (For
+            example, if the first item in the second parameter
+            is <code>'BamHI'</code>, then the first item in the
+            third parameter would be <code>'GGATCC'</code>, since
+            the restriction enzyme named <code>BamHI</code> has the
+            recognition sequence <code>GGATCC</code> — you can
+            refer to <a href="https://www.teach.cs.toronto.edu/~csc108h/winter/assignments/a2/dna.shtml#dna_enzymes">the table of
+            restriction enzymes</a> to see more examples of
+            restriction enzymes and their recognition sequences.)
+            Return a list of two-item lists where the first item of
+            each two-item list is the name of a restriction enzyme
+            and the second item is the list of indices (in the DNA
+            strand) of the restriction sites that the enzyme cuts.
+          </p>
+          <p style="color: red;">
+            The indices in the sublist that is returned are the indices of the 
+            start of each occurrence of the corresponding recognition sequence 
+            in the DNA strand.
+          </p>
+          <p>
+            <strong>Hint:</strong> how can you use
+            function <code>restriction_sites</code>?
+          </p>
+<p>
+            <strong>From the FAQ:</strong> <br>
+  <b>Question</b>: In match_enzymes, should an enzyme be included in the
+  returned list if its recognition sequence does not appear in the strand?<br>
+  <b>Answer</b>: Yes it should, but the list of indices associated with
+  the enzyme should be an empty list. The length of the list returned by
+  match_enzymes must be the same as the length of the two parallel lists
+  (enzyme names, corresponding recognition sequences).
+</p>
+        </td>
+      </tr>
+      <tr>
+        <td>
+          <code>one_cutters:</code><br>
+          <code>(str, List[str], List[str]) -&gt; List[list]</code><br><br>
+          <code>The return type is a list of two-item [str, int] lists</code>
+        </td>
+        <td>
+          <p>
+            The parameters are the same as
+            for <code>match_enzymes</code>. Return a list of two-item
+            lists representing the 1-cutters for the DNA strand that
+            is the first parameter. The first item of each two-item
+            list is the name of a restriction enzyme and the second
+            item is the index (in the DNA strand) of the one
+            restriction site that the enzyme cuts.
+          </p>
+          <p style="color: red;">
+            The index in the sublist that is returned is the index of the 
+            start of the corresponding recognition sequence in the DNA strand.
+          </p>
+        </td>
+      </tr>
+      <tr>
+        <td>
+          <code>replace_mutations:</code><br>
+          <code>(List[str], str, List[str], List[str]) -&gt;</code> <code>None</code>
+        </td>
+        <td>
+          <p>
+            The first parameter represents a list of mutated strands
+            of DNA. The second parameter represents a clean strand
+            of DNA. The third and fourth parameters are the same as
+            the second and third parameters
+            for <code>one_cutters</code> and <code>match_enzymes</code>.
+          </p>
+          <p>
+            The function modifies the list of mutated strands that
+            share a 1-cutter with the clean strand by replacing all
+            bases starting at the 1-cutter in the mutated strand
+            with all bases starting at the 1-cutter in the clean
+            strand, up to and including the end of the strand.
+          </p>
+          <p>
+            Assume that the clean strand contains exactly one
+            1-cutter from the enzyme names and recognition sequences
+            provided.
+          </p>
+          <p>
+            Here is an example of a call
+            to <code>replace_mutations</code>. You should use this
+            example to help you understand what the function does,
+            and then write two more of your own examples to include
+            in your docstring.
+          </p>
+              <pre>&gt;&gt;&gt; strands = ['ACGTGGCCTAGCT', 'CAGCTGATCG']
+&gt;&gt;&gt; clean = 'ACGGCCTT'
+&gt;&gt;&gt; names = ['HaeIII', 'HgaI', 'AluI']
+&gt;&gt;&gt; sequences = ['GGCC', 'GACGC', 'AGCT']
+&gt;&gt;&gt; replace_mutations(strands, clean, names, sequences)
+&gt;&gt;&gt; strands
+['ACGTGGCCTT', 'CAGCTGATCG']</pre>
+        </td>
+      </tr>
+    </tbody></table>
+    
+    <h2>When you get stuck</h2>
+    <p>
+      If you get stuck, it's likely that the terminology is confusing
+      you. Refer to the <a href="https://www.teach.cs.toronto.edu/~csc108h/winter/assignments/a2/dna.shtml">DNA manipulation problem
+      domain page</a> often. Whenever you encounter a term you don't
+      know, use "find" to search for it in this page.
+    </p>
+    <p>
+      Use the function design recipe process that we've been
+      practicing. <em>In a new problem domain with tricky functions
+      this is particularly important.</em> You need to be confident
+      that you know what you are implementing before you start writing
+      code. Come up with multiple examples — with expected
+      return values — before you start coding. If you're not
+      sure whether an example you've created is correct, you're
+      welcome to post it on the discussion board to get feedback.
+    </p>
+    
+    <h2>Want to earn a good mark? Test your work!</h2>
+    <p>
+      You should carefully verify your code <em>before submitting</em>
+      to determine whether it works: the Test step of the Function
+      Design Recipe is particularly important for assignments. Once
+      the deadline has passed, we will run our own set of tests on
+      your submission.
+    </p>
+    <p>
+      To test your work, you should call on each function with a
+      variety of different arguments and check that the function
+      returns the correct value in each case. This can be done in the
+      shell or using another <code>.py</code> file, but must not be
+      done in your submitted <code>.py</code> files.
+    </p>
+    <h2>No Input or Output!</h2>
+    <p>
+      Your <code>palindromes.py</code> and <code>dna.py</code> files
+      should contain the starter code, plus the function definitions
+      specified above. These files must <em>not</em> include any
+      calls to the <code>print</code> and <code>input</code>
+      functions. Do <em>not</em> add any <code>import</code>
+      statements. Also, do <em>not</em> include any function calls or
+      any other code outside of the function definitions.
+    </p>
+    <h2>CSC108 A2 Checker</h2>
+    <p>
+      The purpose of the simple checker is to help you make sure that
+      we will be able to test your code, and to check your code for
+      style errors. To use the checker, make sure
+      that <code>a2_simple_checker.py</code>, <code>palindromes.py</code>,
+      <code>dna.py</code>, and the <code>pyta</code> directory are all
+      in the same directory, <strong>exactly as they were in the zip
+      file we provide</strong>, and
+      run <code>a2_simple_checker.py</code>. Be sure to scroll through
+      and read all messages.
+    </p>
+    <p>
+      The checker tests two things:
+    </p>
+    <ul>
+      <li>
+        whether your functions have the correct parameter and return
+        types, and
+      </li>
+      <li> whether your code follows the Python and CSC108
+        <a href="https://www.teach.cs.toronto.edu/~csc108h/winter/assignments/a2/python_style_guide.shtml">style guidelines</a>.
+      </li>
+    </ul>
+    <p>
+      <strong>If the checker passes for both style and types:</strong>
+    </p>
+    <ul>
+      <li>
+        Your function parameters and return types match the
+        assignment specification. <strong>This does not mean that your
+        code works correctly in all situations.</strong> We will run
+        additional tests on your code once you hand it in, so be
+        sure to thoroughly test your code yourself before
+        submitting.
+      </li>
+      <li>
+        Your code follows the style guidelines.
+      </li>
+    </ul>
+    <p>
+      <strong>If the checker fails, carefully read the message provided:</strong>
+    </p>
+    <ul>
+      <li>
+        It may have failed because one or more of your parameter or
+        return types does not match the assignment specification, or
+        because a function is misnamed. Read the error message to
+        identify the problematic function, review the function
+        specification in the handout, and fix your code.
+      </li>
+      <li>
+        It may have failed because your code did not follow the style
+        guidelines. Review the error description(s) and fix the code
+        style. Please see
+        the <a href="http://www.cs.toronto.edu/~david/pyta/">PyTA
+        documentation</a> for more information about errors.
+      </li>
+    </ul>
+    
+    <p>
+      Make sure the checker passes before submitting.
+    </p>
+    
+    <h2>Marking</h2>
+    <p>
+      These are the aspects of your work that may be marked for A2:
+    </p>
+    <ul>
+      <li>
+        <strong>Correctness (80%):</strong> Your functions should perform as
+        specified. Correctness, as measured by our tests, will count
+        for the largest single portion of your marks. Once your
+        assignment is submitted, we will run additional tests not
+        provided in the checker. Passing the checker <strong>does not</strong>
+        mean that your code will earn full marks for correctness.
+      </li>
+      <li>
+        <strong>Coding style (20%):</strong> Make sure that you follow
+        Python <a href="https://www.teach.cs.toronto.edu/~csc108h/winter/assignments/a2/python_style_guide.shtml">style
+        guidelines</a> that we have introduced and the Python coding
+        conventions that we have been using throughout the semester.
+        Although we don't provide an exhaustive list of style rules,
+        the checker tests for style are complete, so if your code
+        passes the checker, then it will earn full marks for coding
+        style with one exception: docstrings may be evaluated
+        separately. For each occurrence of a PyTA error, one mark (out
+        of 20) deduction will be applied. For example, if a C0301
+        (line-too-long) error occurs 3 times, then 3 marks will be
+        deducted.
+      </li>
+    </ul>
+    
+    <h2>What to Hand In</h2>
+    <p style="color:brown; font-weight: bold;">The very last thing
+      you do before submitting should be to run the checker program
+      one last time.
+    </p>
+    <p>
+      Otherwise, you could make a small error in your final changes
+      before submitting that causes your code to receive zero for
+      correctness.
+    </p>
+    <p>
+      Submit <code>palindromes.py</code> and <code>dna.py</code> on
+      MarkUs by following the instructions on the course
+      website. Remember that spelling of filenames, including case,
+      counts: your files must be named exactly as above.
+    </p>
+  
+
+</body></html>

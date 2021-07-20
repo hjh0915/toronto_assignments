@@ -1,0 +1,838 @@
+<!DOCTYPE html>
+<!-- saved from url=(0075)https://www.teach.cs.toronto.edu/~csc108h/winter/assignments/a1/index.shtml -->
+<html lang="en"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    
+    <meta name="robots" content="noindex, nofollow">
+    <link rel="stylesheet" href="./CSC108H Assignment 1_ Connect-N_files/style.css" type="text/css">
+    <title>
+      CSC108H Assignment 1: Connect-N
+    </title>
+  </head>
+     
+  <body>
+    <div class="title">
+      <h1>
+      CSC108H Assignment 1: Connect-N
+      </h1>
+    </div>
+    <p>
+      <strong>Deadline:</strong> 4 February 2019 <strong>before</strong> 4:00pm<br>
+      <strong>Initial results:</strong> 6 February 2019<br>
+      <strong>Re-submission with 20% deduction (optional):</strong> 8 February 2019 <strong>before</strong> 4:00pm (no lates accepted)<br>
+    </p>
+
+    <p><strong>What is re-submission?</strong> The assignment test
+      results will typically be released within 48 hours of the
+      deadline.  You may choose to resubmit, fixing any errors
+      detected by our tests, or to submit a late submission without
+      the benefit of tests.  These "re-submissions" will be accepted up
+      until the deadline above with a 20% deduction. No late
+      assignment re-submissions will be accepted (the assignment late
+      penalty scheme does not apply to re-submissions).  Since a 20%
+      penalty is applied and the highest mark a re-submission can
+      receive is 80%, the re-submission is most commonly used by
+      students whose code had a minor error that resulted in many test
+      cases failing.  The majority of students do not and should not
+      resubmit.
+    </p>
+
+    <h2>Preamble: what is a problem domain?</h2>
+
+    <p>A <em>problem domain</em> is an area of expertise that a
+      programmer needs to understand in order to write a program
+      related that domain. For example, if a programmer is hired by a
+      non-profit organisation to help with their financial database,
+      that programmer might have to learn how taxes apply to
+      non-profit organisations, and then represent that knowledge in a
+      working computer program.
+    </p>
+    
+    <p>Every assignment in this course will have a problem domain that
+      you will need to learn about, and the bulk of each assignment
+      handout will describe that domain.
+    </p>
+    
+    <p>The problem domain for this assignment is a Connect-N game.
+      Most of this handout describes what that means, including how
+      the problem domain concepts will be represented in your
+      solution.  Please ask for help if something doesn't make sense
+      to you!
+    </p>
+    
+    <h2>Goals of this assignment</h2>
+
+    <ul>
+      <li>Practice learning about a problem domain in order to write
+	code about that domain.</li>
+      <li>Use the Function Design Recipe to plan, implement, and test
+	functions.</li>
+      <li>Write function bodies that exercise the concepts of:
+	variables; numeric, bool, and string types;
+	operators/functions for numeric, bool, and string types; and
+	conditional statements (if-statements). (You can do this whole
+	assignment using only the concepts from Weeks 1, 2, and 3 of
+	CSC108.)</li>
+      <li>Learn to use Python 3 (version 3.7), Wing101, provided
+	starter code, a type-check module, and other tools.</li>
+    </ul>
+    
+    <h2>Connect-N</h2>
+
+    <p>Connect-N is a generalised version of a game called Connect
+      Four.  Each player has a symbol to play with (usually
+      represented as <strong><code>R</code></strong>
+      and <strong><code>B</code></strong>) and the goal is to be the
+      first player to place <code>N</code> of their symbols in a
+      straight line on the game board (either across a row, down a
+      column, or diagonally).
+      The <a href="https://en.wikipedia.org/wiki/Connect_Four">Wikipedia
+      page for Connect-Four</a> (have a look!) provides a good
+      description of the game and the rules.
+    </p>
+    
+    <p>In this assignment, you are to complete some functions that
+      make up part of a larger program for playing a simplified
+      version of Connect-N.  The game will be played with
+      an <code>M</code>-by-<code>M</code> board, where <code>M</code>
+      is an integer between 1 and 9, inclusive. A player will win when
+      they place <code>N</code> symbols consecutively in a row, column
+      or along a diagonal of the game board. Note that <code>N</code>
+      may be smaller than <code>M</code> but may not be larger
+      than <code>M</code>. Our game boards will <strong>always be
+      square</strong>.  When you have completed your functions for
+      this Assignment, you will be able to play games of Connect-N on
+      your computer! The graphics won't be fancy, but we think that's
+      okay, since the purpose of the assignment is to give you some
+      practice with the parts of Python that you will learn in the
+      first few weeks of the course.
+    </p>
+    
+    <h2>Preliminary details and terminology</h2>
+
+    <p>
+      So far in the course, you have learned how to use variables to
+      refer to objects that hold a single numerical or logical value,
+      or a string of characters. For this assignment, we'll use what
+      you've learned so far to write code that works with variables
+      that refer to objects that represent game boards. We can think
+      of our game boards as looking like this:
+    </p>
+    <pre>       R | B | R
+      ---+---+---
+         | B | R
+      ---+---+---
+       B | R |
+    </pre>
+    <p>To get started, we will need some terminology so that we can
+      discuss Connect-N game boards and their parts.
+    </p>
+    
+    <p>Let's describe the game board given above as being a 3-by-3
+      grid of <strong>cell</strong>s. We will say that
+      the <strong>game board size</strong> is 3, since the number of
+      cells along each side of the board is 3.  Rows run horizontally
+      across the board, and columns run vertically. There are two
+      diagonals of length 3 on the board:
+      the <strong><code>DOWN_RIGHT</code></strong> diagonal that runs
+      from the upper-left corner to the bottom-right corner, and
+      the <strong><code>DOWN_LEFT</code></strong> diagonal that runs
+      from the upper-right corner to the bottom-left corner. The board
+      also contains <code>DOWN_RIGHT</code> diagonals of length 2,
+      and <code>DOWN_LEFT</code> diagonals of length 2.
+    </p>
+    
+    <p>We will need a way to describe the position of each cell on the
+      board.  This can be done by using an ordered pair of numbers,
+      representing row and column indices.  In the example board
+      above, the <strong>first row</strong> (the row with row index <code>1</code>)
+      has a cell with an <code>R</code> (in the column with column
+      index <code>1</code>), a cell with a <code>B</code> (column index <code>2</code>), and
+      another cell with an <code>R</code> (column index <code>3</code>).
+      The <strong>second column</strong> has two cells
+      containing <code>B</code>'s (row indices <code>1</code> and <code>2</code>), and a cell
+      containing an <code>R</code> (row index
+      <code>3</code>). The <code>DOWN_RIGHT</code> diagonal of length
+      3 contains, in order, an <code>R</code>, a <code>B</code> and an
+      empty cell.  One of the two <code>DOWN_LEFT</code> diagonals of
+      length 2 contains two <code>R</code>s. For each cell in our
+      example 3-by-3 board, the row index will be
+      either <code>1</code>, <code>2</code>, or <code>3</code>, and
+      the column index will also be
+      either <code>1</code>, <code>2</code> or <code>3</code>.  The
+      cell in position <code>(1, 2)</code> (row <code>1</code> and
+      column <code>2</code>) contains a <code>B</code>, while the cell
+      in position <code>(3, 3)</code> is empty. <strong>If at this
+      point you are confused by the terminology, ask a question in
+      class or on Piazza!</strong> You will have a hard time
+      completing the assignment if you don't understand the terms that
+      have been used!
+    </p>
+    
+    <h2>Representing the game board</h2>
+
+    <p>When representing a game board like the one above in a program,
+      we only need to store the contents of each cell, not the divider
+      symbols (i.e., <code>|</code>, <code>-</code>,
+      and <code>+</code>) that are used to separate cells when game
+      boards are displayed. This leaves us with a game board that
+      looks like this:
+    </p>
+    <pre>      RBR
+       BR
+      BR
+    </pre>
+    <p>It can be difficult to interpret boards that contain a lot of
+      empty cells, so let's use the hyphen symbol <code>-</code> to
+      fill empty cells, as shown below:
+    </p>
+    <pre>      RBR
+      -BR
+      BR-
+    </pre>
+    <p>We have not yet studied how to store 2-dimensional information
+      in Python programs, so we will need a different way to represent
+      our game board.  The approach that we will take for this
+      Assignment is to store the rows one after another, starting with
+      the first row. For the example board above, we would get:
+    </p>
+    <pre>      RBR-BRBR-
+    </pre>
+    <p>And how might we store this information? We will use a
+      Python <code>str</code>.  With these choices, the Python
+      statement:
+    </p>
+    <pre>      game_board = 'R-BR'
+    </pre>
+    <p>creates a variable named <code>game_board</code> that refers to
+      the <code>str</code> object with length 4 <code>'R-BR'</code>,
+      which represents a 2-by-2 game board that looks like this:
+    </p>
+    <pre>       R | -
+      ---+---
+       B | R
+    </pre>
+
+    <h2>Accessing cells</h2>
+    
+    <p> We have used row <strong>and</strong> column indices to
+      describe the position of each cell in the grid representation of
+      a game board.  But each character in a Python <code>str</code>
+      is in a position that is described by a single index.  How is
+      the Python program going to translate between row and column
+      indices and <code>str</code> indices? To answer this question,
+      we will have to determine a formula!
+    </p>
+    
+    <p>One good way to figure out the formula is to play with a
+      concrete example. Suppose a game board was 4-by-4, and that each
+      cell was filled with a different letter from A through P.  (Yes,
+      in a real Connect-N game, only two symbols would be used, but
+      for this example, it helps to put a different letter in each
+      cell.) The grid representation could look like this:
+    </p>
+    <pre>      ABCD
+      EFGH
+      IJKL
+      MNOP
+    </pre>
+    and then the <code>str</code> representation would look like this:
+    <pre>      'ABCDEFGHIJKLMNOP'
+    </pre>
+    <p>Consider the same grid representation as above, with index
+      labels added:
+    </p>
+
+    <div>
+     <table class="normal">
+      <caption>Game board grid with indices</caption>
+      <tbody><tr>
+	<th scope="col"></th>
+	<th scope="col" colspan="4">column indices</th>
+      </tr>
+      <tr>
+	<th scope="col">row indices</th>
+	<th scope="col">1</th>
+	<th scope="col">2</th>
+	<th scope="col">3</th>
+	<th scope="col">4</th>
+      </tr>
+      <tr>
+	<th scope="row">1</th>
+	<td>A</td>
+	<td>B</td>
+	<td>C</td>
+	<td>D</td>
+      </tr>
+      <tr>
+	<th scope="row">2</th>
+	<td>E</td>
+	<td>F</td>
+	<td>G</td>
+	<td>H</td>
+      </tr>
+      <tr>
+	<th scope="row">3</th>
+	<td>I</td>
+	<td>J</td>
+	<td>K</td>
+	<td>L</td>
+      </tr>
+      <tr>
+	<th scope="row">4</th>
+	<td>M</td>
+	<td>N</td>
+	<td>O</td>
+	<td>P</td>
+      </tr>
+     </tbody></table>
+    </div>
+
+    <p>
+      <br>
+      ... and the string representation from above, again with index
+      labels added, as well as the row and column information from the
+      previous table:
+    </p>
+
+    <div>
+    <table class="normal">
+      <caption>(row, col) indices vs string indices</caption>
+      <tbody><tr>
+	<th>row, col</th>
+	<td>1, 1</td>
+	<td>1, 2</td>
+	<td>1, 3</td>
+	<td>1, 4</td>
+	<td>2, 1</td>
+	<td>2, 2</td>
+	<td>2, 3</td>
+	<td>2, 4</td>
+	<td>3, 1</td>
+	<td>3, 2</td>
+	<td>3, 3</td>
+	<td>3, 4</td>
+	<td>4, 1</td>
+	<td>4, 2</td>
+	<td>4, 3</td>
+	<td>4, 4</td>
+      </tr>
+      <tr>
+	<th>str_index</th>
+	<td>0</td>
+	<td>1</td>
+	<td>2</td>
+	<td>3</td>
+	<td>4</td>
+	<td>5</td>
+	<td>6</td>
+	<td>7</td>
+	<td>8</td>
+	<td>9</td>
+	<td>10</td>
+	<td>11</td>
+	<td>12</td>
+	<td>13</td>
+	<td>14</td>
+	<td>15</td>
+      </tr>
+      <tr>
+	<th></th>
+	<td>A</td>
+	<td>B</td>
+	<td>C</td>
+	<td>D</td>
+	<td>E</td>
+	<td>F</td>
+	<td>G</td>
+	<td>H</td>
+	<td>I</td>
+	<td>J</td>
+	<td>K</td>
+	<td>L</td>
+	<td>M</td>
+	<td>N</td>
+	<td>O</td>
+	<td>P</td>
+      </tr>
+    </tbody></table>
+    </div>
+
+    <p><br>We now explore how <code>str_index</code> changes as we move
+      across a row and down a column. This will help us determine a
+      formula that relates row and column indices and <code>str</code>
+      indices.
+    </p>
+    <p>In the example above, we see that the character in the cell
+      with position <code>(2,1)</code> (cell with position row 2 and
+      column 1) has <code>str_index</code> 4.  The other cells in that
+      row have <code>str</code> indices 5, 6 and 7. We conclude that
+      when moving one cell across a row, the <code>str_index</code>
+      increases by 1.  The cells in the column with column index 3
+      have <code>str</code> indices 2, 6, 10 and 14. Moving one cell
+      down a column increases the <code>str_index</code> by 4, the
+      size of the game board. We conclude that when moving one cell
+      down a column, the <code>str_index</code> increases by the game
+      board size.
+    </p>
+    <p>We now introduce variables that will allow us to express the
+      formula explicitly.
+    </p>
+    <p>Let a variable named <code>str_index</code> refer to the
+      position of a cell in the <code>str</code> representation of a
+      game board with size <code>board_size</code>, and let
+      variables <code>row_index</code> and <code>col_index</code>
+      refer to the position of the same cell in the grid
+      representation of a game board. From what we have seen, we can
+      conclude that <code>str_index</code> depends
+      on <code>row_index</code>, <code>col_index</code>
+      and <code>board_size</code>.
+    </p>
+    <p>Plugging in a few examples will show that, given
+      a <code>row_index</code>, <code>col_index</code>
+      and <code>board_size</code>, the following formula will
+      compute <code>str_index</code>:
+    </p>
+    <pre>      (row_index - 1) * board_size + (col_index - 1)
+    </pre>
+    <p>(The minus <code>1</code>'s are needed for the arithmetic to
+      work out. This is because we chose to index our rows and columns
+      starting at 1.  As a thought exercise, what would the formula be
+      if we chose to index the rows and columns starting at 0?)
+    </p>
+    <p>Now that we have described how our game boards can be stored in
+      a Python program, we move to a discussion of what files to
+      download, and then a specification of the functions that you
+      will need to write to complete your Assignment solution.
+    </p>
+
+    <h2 id="download">Files to Download</h2>
+    
+    <p>
+      Please download the <a href="https://www.teach.cs.toronto.edu/~csc108h/winter/assignments/a1/a1.zip">Assignment 1 Files</a> and
+      extract the zip archive. The following paragraphs explain the
+      files you have been given.
+    </p>
+    
+    <h3>Starter code: <code>connect_n_functions.py</code></h3>
+    <p>
+      This file contains some constants, the header and the complete
+      docstring (but not body!) for the first function you are to
+      write.  You will update this file to include the complete
+      functions that you write.
+    </p>
+    
+    <h3>Starter code: <code>connect_n_program.py</code></h3>
+    <p>
+      This file contains the main program and when it is run, the
+      functions that you wrote and put in
+      the <code>connect_n_functions.py</code> file will be called. <strong>Do
+      not</strong> make any changes to the <code>connect_n_program.py</code>
+      file. You will be able to understand most of this code by week six.
+    </p>
+    
+    <h3>Checker: <code>a1_simple_checker.py</code></h3>
+    <p>
+      We have provided a checker program that you should use to check
+      your code. See below for more information
+      about <code>a1_simple_checker.py</code>
+    </p>
+
+    <h2 id="constants">
+      Constants
+    </h2>
+    <p>
+      Constants are special variables whose values do not change once
+      assigned. A different naming convention (uppercase pothole) is
+      used for constants, so that programmers know to not change their
+      values. For example, in the starter code, the
+      constant <code>EMPTY</code> is assigned the
+      value <code>'-'</code> at the beginning of the module and the
+      value of <code>EMPTY</code> should never change in your code.
+      When writing your code, if you need to refer to the symbol used
+      to show that a cell has not yet been chosen, you should
+      use <code>EMPTY</code>, rather than '-'. The same principle must
+      be used when the value of the other constants are used in your
+      code.
+    </p>
+    <p>
+      Using constants simplifies code modifications and improves
+      readability. If we later decide to use a different symbol in a
+      non-selected cell, we would only have to change the symbol in
+      one place (the <code>EMPTY</code> assignment statement), rather
+      than making changes throughout the program.
+    </p>
+
+    <p>The starter code provides the following constants for you to
+      use:
+    </p>
+
+    <div>
+      <table>
+	<caption>Constants provided in the starter code</caption>
+	<tbody><tr>
+          <th style="text-align:left">Constant</th>
+          <td><code>EMPTY</code></td>
+          <td><code>DOWN</code></td>
+          <td><code>ACROSS</code></td>
+          <td><code>DOWN_RIGHT</code></td>
+          <td><code>DOWN_LEFT</code></td>
+          <td><code>MAX_BOARD_SIZE</code></td>
+	</tr>
+	<tr>
+          <th style="text-align:left">Value</th>
+          <td><code>'-'</code></td>
+          <td><code>'down'</code></td>
+          <td><code>'across'</code></td>
+          <td><code>'down_right'</code></td>
+          <td><code>'down_left'</code></td>
+          <td><code>9</code></td>
+	</tr>
+      </tbody></table>
+    </div>
+    
+    <h2>
+      What to do
+    </h2>
+    <p>
+      In the starter code file <code>connect_n_functions.py</code>,
+      complete the following function definitions. We expect you to
+      use the Function Design Recipe from the Week 2 PCRS Prepare
+      videos, and to write complete docstrings for each function.
+    </p>
+    <p>We have included the type contracts in the table below.  We
+      will be evaluating your docstrings in addition to your code.
+      You must include two examples in your docstrings. You will need
+      to paraphrase the full descriptions of the functions to get an
+      appropriate docstring description; copying and pasting what you
+      see in the table below is not sufficient.  Check the steps of
+      the Function Design Recipe to make sure you have properly
+      paraphrased.
+    </p>
+    <p>You may care to read through <code>connect_n_program.py</code>
+      to see how the functions that you will write can be used.  The
+      code in the <code>connect_n_program.py</code> file uses Python
+      statements that you may not have learned yet, so don't worry if
+      you do not understand it fully.
+    </p>
+    <p>
+      The <code>connect_n_functions.py</code> starter code file starts
+      with the definition of a few constant variables
+      (see <a href="https://www.teach.cs.toronto.edu/~csc108h/winter/assignments/a1/index.shtml#constants">above</a>) and a complete docstring
+      for the <code>between</code> function. In your Assignment 1
+      solution, <strong>do not</strong> change the code that we have
+      provided. You are to <strong>add your Python statements</strong>
+      to this starter code file and fulfil the requirements listed in
+      the table below.
+    </p>
+    
+    <table class="normal">
+      <caption>List of functions to implement for Assignment 1</caption>
+      <tbody><tr>
+        <th style="width:25%">
+          Function name:<br>
+          (Parameter types) -&gt; Return type
+        </th>
+        <th style="width:75%">
+          Full Description (paraphrase to get a proper docstring description)
+        </th>
+      </tr>
+      <tr>
+        <td>
+          <code>between:</code><br>
+          <code>(int, int, int) -&gt; bool</code>
+        </td>
+        <td>
+          The first parameter refers to an <code>int</code> value, the
+          second to the minimum value for a range of values, and the
+          third to the maximum value for a range of values. Assume
+          that the value of the second parameter is less than or equal
+          to the value of the third parameter. (That means that, when
+          you write your code, you don't need to worry about other
+          situations. As always, the assumptions should be described
+          in a precondition.) This function is to
+          return <code>True</code> if and only if the value of the
+          first parameter is not less than the second parameter and
+          not more than the third parameter. In other
+          words, <code>True</code> is returned if and only if the
+          first parameter is between the second and third parameters,
+          or equal to one or both of them.
+        </td>
+      </tr>
+      <tr>
+        <td>
+          <code>game_board_full:</code><br>
+          <code>(str) -&gt; bool</code>
+        </td>
+        <td>
+          The parameter refers to a valid game board. This function is
+          to return <code>True</code> if and only if all of the cells
+          in the game board have been chosen.  That
+          is, <code>True</code> is returned if and only if there are
+          no <code>EMPTY</code> characters in the game board.  (See
+          above for discussion of the <code>EMPTY</code> character.)
+        </td>
+      </tr>
+      <tr>
+        <td>
+          <code>get_board_size:</code><br>
+          <code>(str) -&gt; int</code>
+        </td>
+        <td>
+          The parameter refers to a valid game board.  Given that our
+          game boards are square, this means that the length of the
+          parameter is
+          a <a href="http://www.mathsisfun.com/definitions/perfect-square.html">perfect
+          square</a>.  This function is to return the length of each
+          side of the given game board. NOTE: Make sure that
+          your <code>get_board_size</code> function's return type is
+          correct.
+        </td>
+      </tr>
+      <tr>
+        <td>
+          <code>create_empty_board:</code><br>
+          <code>(int) -&gt; str</code>
+        </td>
+        <td>
+          The parameter refers to the size of a valid game board.  You
+          may assume that its value is ≥ 1
+          and ≤ <code>MAX_BOARD_SIZE</code>.  This function is to return
+          a string for storing information about a game board whose
+          size is given by the parameter.  Each character in the
+          returned string is to have been set to the
+          <code>EMPTY</code> character, to indicate that no cells have
+          been chosen yet.
+        </td>
+      </tr>
+      <tr>
+        <td>
+          <code>get_str_index:</code><br>
+          <code>(int, int, int) -&gt; int</code>
+        </td>
+        <td>
+          The first and second parameters refer to the row and column
+          indices, respectively, of a cell in a valid game board whose
+          size is given by the third parameter.  You may assume that
+          the parameters refer to valid values.  This function is to
+          return the index in the string representation of the game
+          board corresponding to the given row and column indices.
+        </td>
+      </tr>
+      <tr>
+        <td>
+          <code>make_move:</code><br>
+          <code>(str, int, int, str) -&gt; str</code>
+        </td>
+        <td>
+          The first parameter refers to a one character string
+          containing a symbol (usually, but not necessarily,
+          an <code>'R'</code> or
+          <code>'B'</code>).  The second and third parameters refer to
+          row and column indices, respectively, of a cell in the valid
+          game board referred to by the fourth parameter.  This
+          function is to return the game board that results when the
+          given symbol is placed at the given cell position in the
+          given game board.  You may assume that the cell at the
+          specified row and column in the game board is initially
+          <code>EMPTY</code>.
+        </td>
+      </tr>
+      <tr>
+        <td>
+          <code>get_increment:</code><br>
+          <code>(str, int) -&gt; int</code>
+        </td>
+        <td>
+          The first parameter refers to a string that describes one of
+          the four
+          directions: <code>DOWN</code>, <code>ACROSS</code>, <code>DOWN_RIGHT</code>,
+          or <code>DOWN_LEFT</code>. The second parameter refers to a
+          valid game board size. This function is to return the
+          difference between the <code>str</code> indices of two
+          adjacent cells on a line that goes in the direction
+          specified by the first parameter. You may assume that the
+          given direction is one of the four directions listed above.
+        </td>
+      </tr>
+      <tr>
+        <td>
+          <code>get_last_index:</code><br>
+          <code>(int, int, str, int) -&gt; int</code>
+        </td>
+        <td>
+          The first and second parameters refer to the row and column
+          indices, respectively, of a cell in a valid game board whose
+          size is given by the last parameter. The third parameter
+          refers to a string that describes one of the
+          directions: <code>DOWN</code>, <code>ACROSS</code>, <code>DOWN_RIGHT</code>,
+          or <code>DOWN_LEFT</code>. This function is to return
+          the <code>str</code> index of the last cell in a line that
+          begins at the specified location and goes in the specified
+          direction all the way to the game board boundary, on a game
+          board of the specified size. You may assume that the row or
+          column number is valid for the game board.<br>  You may also
+          assume that, when the direction is <code>DOWN_LEFT</code>,
+          the row and column are either on the top row or the
+          rightmost column of the game board, and when the direction
+          is <code>DOWN_RIGHT</code>, the row and column are either on
+          the top row or the leftmost column of the game board.
+        </td>
+      </tr>
+    </tbody></table>
+
+    <h3>No Input or Output!</h3>
+
+    <p>
+      Your <code>connect_n_functions.py</code> file should contain the
+      starter code, plus the function definitions specified above.
+      <code>connect_n_functions.py</code> must <em>not</em> include
+      any calls to the <code>print</code> and <code>input</code>
+      functions.  Do <em>not</em> add any <code>import</code>
+      statements.  Also, do <em>not</em> include any function calls or
+      other code outside of the function definitions.
+    </p>
+
+    <h3>
+      How should you test whether your code works?
+    </h3>
+    <p>
+      First, run the checker and review <u>ALL</u> output — you
+      may need to scroll.  You should also test each function
+      individually by writing code to verify your functions in the
+      Python shell.  For example, after defining
+      function <code>game_board_full</code>, you might call it from
+      the shell (e.g., <code>game_board_full('BRRRBRRBB')</code>) to
+      check whether it returns the right value (<code>True</code>).
+      One call usually isn't enough to thoroughly test the function
+      — for example, we should also
+      test <code>game_board_full('B-BR-RB-B')</code> where it should
+      return <code>False</code>.
+    </p>
+    <p>
+      Once you've checked each function individually, play the game by
+      running the <code>connect_n_program.py</code> starter code to
+      see whether it works as expected. If not, go back to testing the
+      functions individually.  It is part of the assignment for you to
+      decide which tests to use.
+    </p>
+    
+    <h2>
+      CSC108 A1 Checker
+    </h2>
+    <p>
+      We are providing a checker module (<code>a1_simple_checker.py</code>) that
+      tests two things:
+    </p>
+    <ul>
+      <li>
+	whether your functions have the correct parameter and return
+	types, and
+      </li>
+      <li> whether your code follows the Python and CSC108
+        <a href="https://www.teach.cs.toronto.edu/~csc108h/winter/assignments/a1/python_style_guide.shtml">style guidelines</a>.
+      </li>
+    </ul>
+    <p>
+      To run the checker, open <code>a1_simple_checker.py</code> and
+      run it.  Note: the checker file should be in
+      the <strong>same</strong> directory as
+      your <code>connect_n_functions.py</code>, as provided in the
+      starter code zip file.  Be sure to scroll through and read all
+      messages.
+    </p>
+    
+    <p>
+      <strong>If the checker passes for both style and types:</strong>
+    </p>
+    <ul>
+      <li>
+	Your function parameters and return types match the
+        assignment specification. <strong>This does not mean that your
+          code works correctly in all situations.</strong> We will run
+        additional tests on your code once you hand it in, so be
+        sure to thoroughly test your code yourself before
+        submitting.
+      </li>
+      <li>
+        Your code follows the style guidelines.
+      </li>
+    </ul>
+
+    <p>
+      <strong>If the checker fails, carefully read the message provided:</strong>
+    </p>
+    <ul>
+      <li>
+	It may have failed because one or more of your parameter or
+	return types does not match the assignment specification, or
+	because a function is misnamed. Read the error message to
+	identify the problematic function, review the function
+	specification in the handout, and fix your code.
+      </li>
+      <li>
+	It may have failed because your code did not follow the style
+	guidelines.  Review the error description(s) and fix the code
+	style.  Please see
+	the <a href="http://www.cs.toronto.edu/~david/pyta/">PyTA
+	documentation</a> for more information about errors.
+      </li>
+    </ul>
+    
+    <p>
+      Make sure the checker passes before submitting.
+    </p>
+    
+    <h2>
+      Marking
+    </h2>
+
+    <p>
+      These are the aspects of your work that may be marked for A1:
+    </p>
+    <ul>
+      <li>
+        <strong>Correctness (80%):</strong> Your functions should perform as
+        specified. Correctness, as measured by our tests, will count
+        for the largest single portion of your marks.  Once your
+        assignment is submitted, we will run additional tests not
+        provided in the checker. Passing the checker <strong>does not</strong>
+        mean that your code will earn full marks for correctness.
+      </li>
+      <li>
+        <strong>Coding style (20%):</strong> Make sure that you follow
+        Python <a href="https://www.teach.cs.toronto.edu/~csc108h/winter/assignments/a1/python_style_guide.shtml">style
+        guidelines</a> that we have introduced and the Python coding
+        conventions that we have been using throughout the semester.
+        Although we don't provide an exhaustive list of style rules,
+        the checker tests for style are complete, so if your code
+        passes the checker, then it will earn full marks for coding
+        style with one exception: docstrings may be evaluated
+        separately. For each occurrence of a PyTA error, one mark (out
+        of 20) deduction will be applied.  For example, if a C0301
+        (line-too-long) error occurs 3 times, then 3 marks will be
+        deducted.
+      </li>
+    </ul>
+    
+    <h2>
+      What to Hand In
+    </h2>
+    <p style="color:brown; font-weight: bold;">The very last thing
+      you do before submitting should be to run the checker program
+      one last time.
+    </p>
+    <p>
+      Otherwise, you could make a small error in your final changes
+      before submitting that causes your code to receive zero for
+      correctness.
+    </p>
+
+    <p>
+      Submit <code>connect_n_functions.py</code> on MarkUs by
+      following the instructions on the course website. Remember that
+      spelling of filenames, including case, counts: your file must be
+      named exactly as above.
+    </p>
+  
+
+</body></html>
